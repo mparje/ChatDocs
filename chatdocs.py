@@ -8,7 +8,7 @@ from llama_index import (
     QuestionAnswerPrompt,
 )
 
-os.environ["OPENAI_API_KEY"] = "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"
+os.environ["OPENAI_API_KEY"] = "YOUR-API-KEY"
 
 documents = SimpleDirectoryReader("documents").load_data()
 
