@@ -7,3 +7,5 @@ from llama_index import (
     ServiceContext,
     QuestionAnswerPrompt,
 )
+
+os.environ["OPENAI_API_KEY"] = "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"
