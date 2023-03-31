@@ -17,3 +17,7 @@ llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-
 service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
 index = GPTSimpleVectorIndex.from_documents(documents, service_context=service_context)
 
+index.save_to_disk('index.json')
+
+
+
