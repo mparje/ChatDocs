@@ -32,5 +32,6 @@ QA_PROMPT_TMPL = (
 
 QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
 
-
-
+query_str = "What is the mission of the company?"
+response = index.query(query_str, text_qa_template=QA_PROMPT)
+print(response)
