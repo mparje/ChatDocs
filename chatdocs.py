@@ -21,5 +21,16 @@ index.save_to_disk('index.json')
 
 index = GPTSimpleVectorIndex.load_from_disk('index.json', llm_predictor=llm_predictor)
 
+QA_PROMPT_TMPL = (
+
+        "Context information is below. \n"
+        "---------------------\n"
+                "{context_str}"
+        "\n---------------------\n" 
+        "Given this information, please answer the question: {query_str}\n"
+        )
+
+QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
+
 
 
