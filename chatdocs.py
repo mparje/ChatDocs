@@ -19,5 +19,7 @@ index = GPTSimpleVectorIndex.from_documents(documents, service_context=service_c
 
 index.save_to_disk('index.json')
 
+index = GPTSimpleVectorIndex.load_from_disk('index.json', llm_predictor=llm_predictor)
+
 
 
