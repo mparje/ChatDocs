@@ -1,4 +1,5 @@
 streamlit
 openai
 langchain
-llama_index
+llama_index==0.1.0
+
