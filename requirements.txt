@@ -1,5 +1,5 @@
-streamlit
-openai
-langchain
-llama-index
-farm-heystack
+streamlit==0.88.0
+langchain  # Specify the version or install it from the appropriate source
+farm==0.8.0
+haystack==0.11.0
+faiss-cpu==1.7.0  # If you're using CPU, or use 'faiss-gpu==1.7.0' for GPU support
