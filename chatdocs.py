@@ -1,40 +1,24 @@
 import os
 import streamlit as st
 from langchain import OpenAI
-from llama_index import (
-    GPTSimpleVectorIndex,
-    SimpleDirectoryReader,
-    LLMPredictor,
-    ServiceContext,
-    QuestionAnswerPrompt, 
-)
+from haystack.document_store import FAISSDocumentStore
+from haystack.retriever.dense import DensePassageRetriever
+from haystack.pipeline import DocumentSearchPipeline
 
 # Retrieve the OpenAI API key from an environment variable
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
-# Load documents
-documents = SimpleDirectoryReader("documents").load_data()
+# Create the document store
+document_store = FAISSDocumentStore()
 
-# Create LLMPredictor and ServiceContext objects
-llm_predictor = LLMPredictor(llm=OpenAI(temperature=0, model_name="text-davinci-003"))
-service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor)
+# Load documents into the document store
+# ... (code to load your documents into the document store)
 
-# Create and save the index
-index = GPTSimpleVectorIndex.from_documents(documents, service_context=service_context)
-index.save_to_disk('index.json')
+# Create the retriever
+retriever = DensePassageRetriever(document_store=document_store)
 
-# Load the index
-index = GPTSimpleVectorIndex.load_from_disk('index.json', llm_predictor=llm_predictor)
-
-# Define the question prompt template
-QA_PROMPT_TMPL = (
-    "Context information is below. \n"
-    "---------------------\n"
-    "{context_str}"
-    "\n---------------------\n" 
-    "Given this information, please answer the question: {query_str}\n"
-)
-QA_PROMPT = QuestionAnswerPrompt(QA_PROMPT_TMPL)
+# Create the pipeline
+pipeline = DocumentSearchPipeline(retriever=retriever)
 
 def run_streamlit_app():
     st.title("Question Answering System")
@@ -43,11 +27,14 @@ def run_streamlit_app():
     query_str = st.text_input("Enter your question")
 
     if st.button("Submit"):
-        # Query the index and get the response
-        response = index.query(query_str, text_qa_template=QA_PROMPT)
+        # Query the pipeline and get the response
+        prediction = pipeline.run(query_str)
+
+        # Extract the answer from the prediction
+        answer = prediction["answers"][0]["answer"] if prediction["answers"] else "No answer found."
 
         # Display the response
-        st.markdown(f"**Response:** {response}")
+        st.markdown(f"**Response:** {answer}")
 
 if __name__ == "__main__":
     run_streamlit_app()
