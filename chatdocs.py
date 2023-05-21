@@ -6,7 +6,7 @@ from llama_index import (
     SimpleDirectoryReader,
     LLMPredictor,
     ServiceContext,
-    QuestionAnswerPrompt,
+    QuestionAnswerPrompt, 
 )
 
 # Retrieve the OpenAI API key from an environment variable
